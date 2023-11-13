@@ -1,0 +1,9 @@
+curl --location 'http://localhost:8081/kafka/publish' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+    "message": "message string here"
+}'
+
+##JSON to String Converter
+https://jsontostring.com/
+
