@@ -1,0 +1,59 @@
+## for Windows
+
+#open cmd ,create bridge network
+docker network create -d bridge mynetwork
+
+#check network
+docker network inspect mynetwork
+
+#access docker-compose.yml folder
+cd  C:/xxxxx/kafka-docker/kafka
+#install
+docker-compose -f docker-compose.yml up
+# access container
+docker exec -it kafka11 /bin/bash
+cd /opt/bitnami/kafka/bin/
+#create topic
+kafka-topics.sh --create --bootstrap-server kafka11:9092,kafka22:9092,kafka33:9092 --replication-factor 3 --partitions 3 --topic test
+#check topic
+kafka-topics.sh --list --bootstrap-server kafka11:9092,kafka22:9092,kafka33:9092
+#check topic details
+kafka-topics.sh --describe --bootstrap-server kafka11:9092,kafka22:9092,kafka33:9092 --topic test
+
+####### result #######
+Topic: test	TopicId: yiKjk9VTTZqVolLOEbZrbw	PartitionCount: 3	ReplicationFactor: 1	Configs: min.insync.replicas=1,cleanup.policy=delete,retention.ms=86400000,retention.bytes=-1
+	Topic: test	Partition: 0	Leader: 3	Replicas: 3	Isr: 3
+	Topic: test	Partition: 1	Leader: 1	Replicas: 1	Isr: 1
+	Topic: test	Partition: 2	Leader: 2	Replicas: 2	Isr: 2
+
+##### result end #####
+
+## back to Windows (your host)
+# Open an administrator-mode command prompt or PowerShell
+# let Windows(your host) can connect the bridge network (mynetwork)
+route add 172.18.0.0 mask 255.255.0.0 172.18.0.1
+
+#check ip address for each container
+docker inspect -f '{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}' kafka11
+docker inspect -f '{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}' kafka22
+docker inspect -f '{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}' kafka33
+
+# add C:\Windows\System32\drivers\etc\hosts
+# if don't want this step, can directly use the ip address you
+#checked in the above step to configure the application Kafka connection
+172.18.0.3 kafka11
+172.18.0.2 kafka22
+172.18.0.4 kafka33
+
+
+
+
+
+
+
+
+
+
+
+
+

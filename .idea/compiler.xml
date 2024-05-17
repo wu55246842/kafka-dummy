@@ -6,7 +6,10 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="kafka" />
+        <module name="producer1" />
+        <module name="consumer2" />
+        <module name="consumer1" />
+        <module name="producer2" />
       </profile>
     </annotationProcessing>
   </component>
