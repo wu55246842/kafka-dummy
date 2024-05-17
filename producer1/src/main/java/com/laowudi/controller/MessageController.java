@@ -4,6 +4,8 @@ import com.laowudi.service.KafkaProducerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Map;
+
 @RestController
 @RequestMapping("/api/kafka")
 public class MessageController {
@@ -12,8 +14,8 @@ public class MessageController {
     private KafkaProducerService kafkaProducerService;
 
     @PostMapping("/publish")
-    public String publishMessage(@RequestParam("message") String message) {
-        kafkaProducerService.sendMessage(message);
+    public String publishMessage(@RequestBody Map map) {
+        kafkaProducerService.sendMessage(map.get("data").toString());
         return "Message published successfully";
     }
 }

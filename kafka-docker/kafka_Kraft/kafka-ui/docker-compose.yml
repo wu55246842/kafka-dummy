@@ -8,7 +8,7 @@ services:
     ports:
       - 9091:8080
     volumes:
-      - /Users/wenyaobo/Src/kafka_ui/etc/localtime:/etc/localtime
+      - D:/Project/Java/kafka-dummy/kafka-docker/kafka_Kraft/kafka_data/ui:/etc/localtime
     environment:
       # 集群名称
       - KAFKA_CLUSTERS_0_NAME=local

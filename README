@@ -37,6 +37,11 @@ route add 172.18.0.0 mask 255.255.0.0 172.18.0.1
 docker inspect -f '{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}' kafka11
 docker inspect -f '{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}' kafka22
 docker inspect -f '{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}' kafka33
+# result
+172.18.0.3
+172.18.0.2
+172.18.0.4
+
 
 # add C:\Windows\System32\drivers\etc\hosts
 # if don't want this step, can directly use the ip address you
@@ -44,6 +49,10 @@ docker inspect -f '{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}' kafk
 172.18.0.3 kafka11
 172.18.0.2 kafka22
 172.18.0.4 kafka33
+
+spring.kafka.bootstrap-servers=kafka11:9092,kafka22:9092,kafka33:9092
+or
+spring.kafka.bootstrap-servers=172.18.0.3:9092,172.18.0.2:9092,172.18.0.4:9092
 
 
 
