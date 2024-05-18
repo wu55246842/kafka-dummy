@@ -15,7 +15,7 @@ public class MessageController {
 
     @PostMapping("/publish")
     public String publishMessage(@RequestBody Map map) {
-        kafkaProducerService.sendMessage(map.get("data").toString());
+        kafkaProducerService.sendMessage("test",map.get("data").toString());
         return "Message published successfully";
     }
 }

@@ -1,9 +1,10 @@
 package com.laowudi.service;
 
-
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.laowudi.model.User;
+import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.kafka.support.Acknowledgment;
@@ -18,18 +19,21 @@ public class KafkaConsumerService {
 
     @Autowired
     private ObjectMapper objectMapper;
-
     @Autowired
     private UserService userService;
 
-    private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+    private static final String DATE_TIME_PATTERN = "yyyy-MM-dd HH:mm:ss";
 
     @KafkaListener(topics = "test",
             groupId = "${spring.kafka.consumer.group-id}",
             containerFactory = "kafkaListenerContainerFactory")
-    public void consume(String message, Acknowledgment acknowledgment) {
+    public void consume(ConsumerRecord message, Acknowledgment acknowledgment) throws JsonProcessingException {
         try {
-            Map<String, Object> map = objectMapper.readValue(message, Map.class);
+            String jsonString = message.value().toString().trim().replaceAll("^\"|\"$", "").replace("\\\"", "\"");
+            ObjectMapper mapper = new ObjectMapper();
+            JsonNode jsonNode = mapper.readTree(jsonString);
+            Map<String, Object> map = mapper.convertValue(jsonNode, Map.class);
+
             User user = new User();
 
             user.setSeq(Long.parseLong(map.get("seq").toString()));
@@ -37,23 +41,20 @@ public class KafkaConsumerService {
             user.setPassword(map.get("password").toString());
             user.setCreateBy(map.get("createBy").toString());
             user.setUpdateBy("consumer_1");
-
-            // Parse the produceTime
             String produceTimeString = map.get("produceTime").toString();
             OffsetDateTime produceTime = OffsetDateTime.parse(produceTimeString);
+
             user.setProduceTime(produceTime);
 
             userService.save(user);
             System.out.println("Consumer 1 consumed message: " + user);
 
-            // 手动提交偏移量
+            // Manually acknowledge the message
             acknowledgment.acknowledge();
         } catch (Exception e) {
             e.printStackTrace();
-            System.err.println("Error processing message: " + message);
-            throw e; // 让SeekToCurrentErrorHandler处理异常
+            System.err.println("Error processing message: " + message.toString());
+            throw e; // Let the DefaultErrorHandler handle the exception
         }
     }
 }
-
-

@@ -56,7 +56,7 @@ function processQueue() {
 async function main() {
     console.log("*************************");
     const requests = [];
-    const count = 100000
+    const count = 100
 
     for (let i = 1; i <= count; i++) {
         requests.push(new Promise(resolve => {
