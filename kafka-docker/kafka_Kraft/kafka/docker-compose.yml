@@ -23,7 +23,7 @@ services:
       - KAFKA_CFG_MESSAGE_MAX_BYTES=200000000 
       - KAFKA_CFG_REPLICA_FETCH_MAX_BYTES=200000000 
     volumes:
-      - D:/kafka_Kraft/kafka_data/kafka1/kafka/kraft:/bitnami/kafka
+      - D:/Project/Java/kafka-dummy/kafka-docker/kafka_Kraft/kafka_data/kafka1:/bitnami/kafka
     networks:
       - mynetwork
 
@@ -50,7 +50,7 @@ services:
       - KAFKA_CFG_MESSAGE_MAX_BYTES=200000000 
       - KAFKA_CFG_REPLICA_FETCH_MAX_BYTES=200000000 
     volumes:
-      - D:/kafka_Kraft/kafka_data/kafka2/kafka/kraft:/bitnami/kafka
+      - D:/Project/Java/kafka-dummy/kafka-docker/kafka_Kraft/kafka_data/kafka2:/bitnami/kafka
     networks:
       - mynetwork
 
@@ -77,7 +77,7 @@ services:
       - KAFKA_CFG_MESSAGE_MAX_BYTES=200000000 
       - KAFKA_CFG_REPLICA_FETCH_MAX_BYTES=200000000 
     volumes:
-      - D:/kafka_Kraft/kafka_data/kafka3/kafka/kraft:/bitnami/kafka
+      - D:/Project/Java/kafka-dummy/kafka-docker/kafka_Kraft/kafka_data/kafka3:/bitnami/kafka
     networks:
       - mynetwork
 

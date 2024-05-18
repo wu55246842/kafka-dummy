@@ -10,7 +10,5 @@ services:
     volumes:
       - D:/Project/Java/kafka-dummy/kafka-docker/kafka_Kraft/kafka_data/ui:/etc/localtime
     environment:
-      # 集群名称
       - KAFKA_CLUSTERS_0_NAME=local
-      # 集群地址
       - KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS=kafka11:9092,kafka22:9092,kafka33:9092
