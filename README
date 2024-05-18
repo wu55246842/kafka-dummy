@@ -28,6 +28,28 @@ Topic: test	TopicId: yiKjk9VTTZqVolLOEbZrbw	PartitionCount: 3	ReplicationFactor:
 
 ##### result end #####
 
+
+
+##
+# ipconfig check the ip address private key
+## example result
+  Link-local IPv6 Address . . . . . : fe80::f315:19a5:11cd:cfdb%9
+   IPv4 Address. . . . . . . . . . . : 192.168.31.108
+   Subnet Mask . . . . . . . . . . . : 255.255.255.0
+   Default Gateway . . . . . . . . . : 192.168.31.1
+# docker-compose setting  the 192.168.31.108 is my ip address
+- KAFKA_CFG_ADVERTISED_LISTENERS=PLAINTEXT://192.168.31.108:9292
+
+## kafka connect setting
+spring.kafka.bootstrap-servers=localhost:9092,localhost:9092,localhost:9092
+
+## send test API, node js is required
+cd node
+npm i
+node app.js
+
+
+## optional:
 ## back to Windows (your host)
 # Open an administrator-mode command prompt or PowerShell
 # let Windows(your host) can connect the bridge network (mynetwork)
@@ -37,22 +59,10 @@ route add 172.18.0.0 mask 255.255.0.0 172.18.0.1
 docker inspect -f '{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}' kafka11
 docker inspect -f '{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}' kafka22
 docker inspect -f '{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}' kafka33
-# result
-172.18.0.3
-172.18.0.2
-172.18.0.4
 
 
-# add C:\Windows\System32\drivers\etc\hosts
-# if don't want this step, can directly use the ip address you
-#checked in the above step to configure the application Kafka connection
-172.18.0.3 kafka11
-172.18.0.2 kafka22
-172.18.0.4 kafka33
 
-spring.kafka.bootstrap-servers=kafka11:9092,kafka22:9092,kafka33:9092
-or
-spring.kafka.bootstrap-servers=172.18.0.3:9092,172.18.0.2:9092,172.18.0.4:9092
+
 
 
 
