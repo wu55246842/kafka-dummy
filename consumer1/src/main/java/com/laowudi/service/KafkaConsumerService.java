@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.laowudi.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.annotation.KafkaListener;
+import org.springframework.kafka.support.Acknowledgment;
 import org.springframework.stereotype.Service;
 
 import java.time.OffsetDateTime;
@@ -23,8 +24,10 @@ public class KafkaConsumerService {
 
     private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
-    @KafkaListener(topics = "test", groupId = "${spring.kafka.consumer.group-id}")
-    public void consume(String message) {
+    @KafkaListener(topics = "test",
+            groupId = "${spring.kafka.consumer.group-id}",
+            containerFactory = "kafkaListenerContainerFactory")
+    public void consume(String message, Acknowledgment acknowledgment) {
         try {
             Map<String, Object> map = objectMapper.readValue(message, Map.class);
             User user = new User();
@@ -42,9 +45,13 @@ public class KafkaConsumerService {
 
             userService.save(user);
             System.out.println("Consumer 1 consumed message: " + user);
+
+            // 手动提交偏移量
+            acknowledgment.acknowledge();
         } catch (Exception e) {
             e.printStackTrace();
             System.err.println("Error processing message: " + message);
+            throw e; // 让SeekToCurrentErrorHandler处理异常
         }
     }
 }
