@@ -1,33 +1,57 @@
-*.class
-*.jar
-*.war
-*.ear
+######################################################################
+# Build Tools
 
-*.log
+.gradle
+/build/
+!gradle/wrapper/gradle-wrapper.jar
 
-*.env
-
-# IntelliJ IDEA
-.idea/
-*.iml
-*.iws
-
-# Eclipse
-.project
-.classpath
-.settings/
-
-# Maven
 target/
+!.mvn/wrapper/maven-wrapper.jar
 
-# Gradle
-.gradle/
-build/
+######################################################################
+# IDE
+
+### STS ###
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr
+
+### NetBeans ###
+nbproject/private/
+build/*
+nbbuild/
+dist/
+nbdist/
+.nb-gradle/
+
+######################################################################
+# Others
+*.log
+*.xml.versionsBackup
+*.swp
+
+!*/build/*.java
+!*/build/*.html
+!*/build/*.xml
+/sql/local.sql
+
+/ruoyi-admin/src/main/resources/application-dev.yml
+/ruoyi-admin/src/main/resources/application-prod.yml
+*local*.yml
+apiclient_key.pem
 
 .DS_Store
 Thumbs.db
 
-# 临时文件
 *.tmp
 *.swp
 *.swo
