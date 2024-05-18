@@ -1,0 +1,38 @@
+*.class
+*.jar
+*.war
+*.ear
+
+*.log
+
+*.env
+
+# IntelliJ IDEA
+.idea/
+*.iml
+*.iws
+
+# Eclipse
+.project
+.classpath
+.settings/
+
+# Maven
+target/
+
+# Gradle
+.gradle/
+build/
+
+.DS_Store
+Thumbs.db
+
+# 临时文件
+*.tmp
+*.swp
+*.swo
+*~
+
+# Node.js
+node_modules/
+dist/
