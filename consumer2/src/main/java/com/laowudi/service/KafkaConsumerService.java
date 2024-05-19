@@ -47,7 +47,7 @@ public class KafkaConsumerService {
             user.setProduceTime(produceTime);
 
             userService.save(user);
-            System.out.println("Consumer 2 consumed message: " + user);
+            System.out.println("Consumer 2 consumed message: " + user.toString());
 
             // Manually acknowledge the message
             acknowledgment.acknowledge();
